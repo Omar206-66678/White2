@@ -21,10 +21,10 @@
     ],
     sessions: [], items: [], cafeOrders: [], cafeItems: [], shifts: [], bookings: [], invoices: [], expenses: []
   });
-  const load = () => { try { const d = JSON.parse(localStorage.getItem(KEY)); if (d && d.devices && d.users && d.shifts) return d; } catch (_) {} return seed(); };
+  const load = fallback => { try { const raw = localStorage.getItem(KEY); if (raw) { const d = JSON.parse(raw); if (d && d.devices && d.users && d.shifts) return d; } } catch (_) {} return fallback || seed(); };
   let db = load();
   g.WhiteDemoDB = {
-    get: () => db, reload: () => (db = load()),
+    get: () => db, reload: () => (db = load(db)),
     save() { try { localStorage.setItem(KEY, JSON.stringify(db)); } catch (_) {} },
     uid: p => p + Date.now().toString(36) + Math.random().toString(36).slice(2, 6)
   };

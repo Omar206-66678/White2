@@ -6,10 +6,13 @@
 
   function demoAdapter() {
     const DB = g.WhiteDemoDB, SES = 'white-demo-session';
+    let memSes = null;
+    const normDigits = s => String(s == null ? '' : s).replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/[۰-۹]/g, d => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d));
     const hash = async s => { try { const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s)); return [...new Uint8Array(b)].map(x => x.toString(16).padStart(2, '0')).join(''); } catch (_) { return 'x' + s; } };
     const pub = u => ({ id: u.id, name: u.name, phone: u.phone, role: u.role });
-    const me = () => { try { const id = localStorage.getItem(SES); return id ? DB.reload().users.find(u => u.id === id) || null : null; } catch (_) { return null; } };
-    const setSes = id => { try { localStorage.setItem(SES, id); } catch (_) {} };
+    const getSes = () => { try { return localStorage.getItem(SES) || memSes; } catch (_) { return memSes; } };
+    const setSes = id => { memSes = id; try { localStorage.setItem(SES, id); } catch (_) {} };
+    const me = () => { const id = getSes(); return id ? DB.reload().users.find(u => u.id === id) || null : null; };
     return {
       mode: 'demo',
       async currentUser() { const u = me(); return u ? pub(u) : null; },
@@ -19,10 +22,10 @@
       },
       async signIn({ phone, password }) {
         const u = DB.reload().users.find(x => x.phone === phone); if (!u) return { ok: false, error: BAD };
-        const good = u.pw === null ? password === '123456' : u.pw === await hash(phone + ':' + password);
+        const good = u.pw === null ? normDigits(password) === '123456' : u.pw === await hash(phone + ':' + password);
         if (!good) return { ok: false, error: BAD }; setSes(u.id); return { ok: true };
       },
-      async signOut() { try { localStorage.removeItem(SES); } catch (_) {} },
+      async signOut() { memSes = null; try { localStorage.removeItem(SES); } catch (_) {} },
       async menu() { return DB.reload().menu.filter(m => m.active); },
       async categories() { return DB.reload().categories.map(c => ({ ...c })); },
       async publicDevices() {

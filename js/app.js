@@ -203,16 +203,23 @@
   }
   async function submitAuth(form) {
     const f = new FormData(form), name = (f.get('name') || '').trim(), phone = window.WhitePhone.normalize(f.get('phone')), password = f.get('password') || '';
-    const err = m => { $('#authErr').textContent = m; };
+    const err = m => { const el = $('#authErr'); if (el) el.textContent = m; };
     if (st.authMode === 'signup' && name.length < 2) return err('اكتب اسمك');
     if (!window.WhitePhone.valid(phone)) return err('اكتب رقم هاتف صحيح');
     if (password.length < C.passwordMin) return err('كلمة السر ' + C.passwordMin + ' حروف على الأقل');
-    if (st.busy) return; st.busy = true;
-    const r = st.authMode === 'signup' ? await S.signUp({ name, phone, password }) : await S.signIn({ phone, password });
-    st.busy = false;
-    if (!r.ok) return err(r.error || 'تعذر تنفيذ الطلب');
+    if (st.busy) return; st.busy = true; err('');
+    let r;
+    try {
+      r = st.authMode === 'signup' ? await S.signUp({ name, phone, password }) : await S.signIn({ phone, password });
+    } catch (_) {
+      return err('تعذر تنفيذ الطلب');
+    } finally {
+      st.busy = false;
+    }
+    if (!r || !r.ok) return err((r && r.error) || 'تعذر تنفيذ الطلب');
     st.authMode = 'login';
     await refreshUser();
+    if (!st.user) return err('تعذر حفظ الجلسة في المتصفح. تأكد من السماح بتخزين البيانات وحاول مرة أخرى');
     if (isStaff(st.user)) return enterStaff();
     if (st.afterLogin) { st.afterLogin = false; st.stack = ['detail']; show('booking'); } else { toast('أهلًا بيك'); show('account'); }
   }
