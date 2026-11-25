@@ -1,23 +1,31 @@
 /* White — لوحة الموظفين (تُحمَّل فقط بعد التحقق من الدور). تعتمد على نظام التصميم في css/app.css */
 body.is-staff[data-staff-tab="cafe"]{
-  background:
-    linear-gradient(180deg,rgba(246,239,228,.72) 0%,rgba(246,239,228,.40) 36%,rgba(246,239,228,.08) 70%,rgba(246,239,228,.18) 100%),
-    url("/src/assets/images/cafe_drinks_light_1795574024549.jpg") center 72% / cover no-repeat fixed #EDE0CE;
+  background:transparent;
+}
+body.is-staff[data-staff-tab="cafe"] #staffRoot{
+  position:relative;
+  z-index:1;
 }
 body.is-staff[data-staff-tab="cafe"]::before{
   opacity:1;
   filter:none;
-  background:radial-gradient(ellipse at 50% 55%,transparent 52%,rgba(68,38,16,.18) 100%);
+  z-index:0;
+  background:
+    linear-gradient(180deg,rgba(246,239,228,.76) 0%,rgba(246,239,228,.42) 34%,rgba(246,239,228,.08) 66%,rgba(246,239,228,.24) 100%),
+    radial-gradient(ellipse at 50% 60%,transparent 52%,rgba(68,38,16,.20) 100%),
+    url("../src/assets/images/cafe_mobile_light_1795621114654.jpg") center 58% / cover no-repeat #EDE0CE;
 }
 :root[data-theme="dark"] body.is-staff[data-staff-tab="cafe"]{
-  background:
-    linear-gradient(180deg,rgba(14,9,6,.68) 0%,rgba(14,9,6,.36) 38%,rgba(14,9,6,.06) 72%,rgba(14,9,6,.22) 100%),
-    url("/src/assets/images/cafe_drinks_dark_1795574024788.jpg") center 72% / cover no-repeat fixed #120B07;
+  background:transparent;
 }
 :root[data-theme="dark"] body.is-staff[data-staff-tab="cafe"]::before{
   opacity:1;
   filter:none;
-  background:radial-gradient(ellipse at 50% 55%,transparent 48%,rgba(0,0,0,.46) 100%);
+  z-index:0;
+  background:
+    linear-gradient(180deg,rgba(14,9,6,.70) 0%,rgba(14,9,6,.36) 34%,rgba(14,9,6,.06) 66%,rgba(14,9,6,.28) 100%),
+    radial-gradient(ellipse at 50% 60%,transparent 48%,rgba(0,0,0,.46) 100%),
+    url("../src/assets/images/cafe_mobile_dark_1795621128961.jpg") center 58% / cover no-repeat #120B07;
 }
 #staffMain{max-width:1000px;margin:0 auto;padding:6px 16px calc(var(--nav-h) + 44px + env(safe-area-inset-bottom,0px));overflow-x:clip}
 #staffRoot *{min-width:0}
