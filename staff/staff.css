@@ -1,4 +1,24 @@
 /* White — لوحة الموظفين (تُحمَّل فقط بعد التحقق من الدور). تعتمد على نظام التصميم في css/app.css */
+body.is-staff[data-staff-tab="cafe"]{
+  background:
+    linear-gradient(180deg,rgba(246,239,228,.72) 0%,rgba(246,239,228,.40) 36%,rgba(246,239,228,.08) 70%,rgba(246,239,228,.18) 100%),
+    url("/src/assets/images/cafe_drinks_light_1795574024549.jpg") center 72% / cover no-repeat fixed #EDE0CE;
+}
+body.is-staff[data-staff-tab="cafe"]::before{
+  opacity:1;
+  filter:none;
+  background:radial-gradient(ellipse at 50% 55%,transparent 52%,rgba(68,38,16,.18) 100%);
+}
+:root[data-theme="dark"] body.is-staff[data-staff-tab="cafe"]{
+  background:
+    linear-gradient(180deg,rgba(14,9,6,.68) 0%,rgba(14,9,6,.36) 38%,rgba(14,9,6,.06) 72%,rgba(14,9,6,.22) 100%),
+    url("/src/assets/images/cafe_drinks_dark_1795574024788.jpg") center 72% / cover no-repeat fixed #120B07;
+}
+:root[data-theme="dark"] body.is-staff[data-staff-tab="cafe"]::before{
+  opacity:1;
+  filter:none;
+  background:radial-gradient(ellipse at 50% 55%,transparent 48%,rgba(0,0,0,.46) 100%);
+}
 #staffMain{max-width:1000px;margin:0 auto;padding:6px 16px calc(var(--nav-h) + 44px + env(safe-area-inset-bottom,0px));overflow-x:clip}
 #staffRoot *{min-width:0}
 .rolebar{max-width:1000px;margin:0 auto;padding:10px 16px 0;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
@@ -48,7 +68,8 @@
 /* الحسابات */
 .stats4{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:6px}
 .stat{padding:16px}.stat small{color:var(--muted);font-weight:700;font-size:.78rem}.stat b{display:block;font-size:1.4rem;margin-top:4px;font-variant-numeric:tabular-nums}
-.stat.net{grid-column:1/-1;background:var(--btn-grad) padding-box,linear-gradient(135deg,rgba(255,255,255,.5),rgba(255,255,255,.08)) border-box;color:var(--on-brand)}
+.stat.net{grid-column:1/-1;background:var(--btn-grad);color:var(--on-brand)}
+.stat.net::before{background:conic-gradient(from var(--a),rgba(255,255,255,.18) 0 48%,rgba(255,255,255,.85) 72%,#FFF4E0 88%,rgba(255,255,255,.18) 100%)}
 .stat.net small{color:rgba(43,16,0,.7)}
 .line{display:flex;justify-content:space-between;gap:10px;padding:12px 4px;border-bottom:1px solid var(--line);font-weight:600}
 .line:last-child{border:0}.line span:last-child{font-variant-numeric:tabular-nums;font-weight:800}
@@ -71,7 +92,7 @@
 /* الشيفت */
 .shiftcard{padding:20px;display:grid;gap:14px}
 .kpis4{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-.kpis4>div{padding:12px;border-radius:var(--r-sm);background:color-mix(in srgb,var(--ink) 4%,transparent);border:1px solid var(--line);display:grid;gap:2px}
+.kpis4>div{position:relative;padding:12px;border-radius:var(--r-sm);background:color-mix(in srgb,var(--ink) 4%,transparent);border:0;display:grid;gap:2px}
 .kpis4 small{color:var(--muted);font-weight:700;font-size:.74rem}.kpis4 b{font-variant-numeric:tabular-nums}
 .diff{padding:12px 14px;border-radius:var(--r-sm);font-weight:800;text-align:center;background:color-mix(in srgb,var(--ink) 5%,transparent);color:var(--muted)}
 .diff.ok{color:var(--st-available);background:color-mix(in srgb,var(--st-available) 12%,transparent)}
@@ -92,8 +113,13 @@
 .cust-info{display:grid;gap:6px}.cust-info h2{font-size:1.3rem;font-weight:800;line-height:1.2}
 .phone{color:var(--brand-text);font-weight:700;text-decoration:none;width:fit-content}
 .actgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}
-.actbtn{display:flex;flex-direction:column;align-items:center;gap:8px;padding:14px 4px;font-size:.78rem;font-weight:700;text-align:center;text-decoration:none;color:var(--ink);border-radius:var(--r-md);background:var(--s1);border:1px solid var(--line);transition:transform .15s,border-color .2s}
-.actbtn:hover{border-color:var(--edge-a)}.actbtn:active{transform:scale(.96)}
+.actbtn{position:relative;display:flex;flex-direction:column;align-items:center;gap:8px;padding:14px 4px;font-size:.78rem;font-weight:700;text-align:center;text-decoration:none;color:var(--ink);border-radius:var(--r-md);background:var(--s1);border:0;transition:transform .15s}
+.actbtn:active{transform:scale(.96)}
+.kpis4>div::before,.actbtn::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1.5px;pointer-events:none;
+  background:conic-gradient(from var(--a),rgba(var(--accrgb),.16) 0 48%,var(--brand-1) 72%,var(--brand-3) 88%,rgba(var(--accrgb),.16) 100%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;
+  mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);
+  animation:ring var(--ring-speed) linear infinite}
 
 /* التقارير */
 .monthbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:10px 0 6px}

@@ -51,6 +51,8 @@
   function mount(user) {
     st.user = user; st.tab = 'devices'; st.more = null; if (S.setUser) S.setUser(user);
     document.body.classList.add('is-staff');
+    document.body.dataset.staffRole = user.role;
+    document.body.dataset.staffTab = 'devices';
     $('#staffRoot').innerHTML = `
       <header class="topbar"><button class="icon-btn" id="sLogout" aria-label="تسجيل الخروج">${ic('logout')}</button>
         <div class="top-title">${g.WhiteUI.brand()}<span class="roletag">${user.role === 'owner' ? 'المالك' : 'الكاشير'}</span></div>
@@ -83,7 +85,7 @@
   // التحديث التلقائي: يعيد الرسم فقط لو البيانات اتغيّرت، ويحافظ على مكان السكرول
   async function reload(force) { const ch = await refresh(); if ((ch || force) && ['devices', 'cafe', 'bookings'].includes(st.tab)) rerender(); }
   function show(tab) {
-    st.tab = tab; if (tab === 'more') st.more = null; if (tab === 'customers') { st.cust.id = null; st.cust.d = null; }
+    st.tab = tab; document.body.dataset.staffTab = tab; if (tab === 'more') st.more = null; if (tab === 'customers') { st.cust.id = null; st.cust.d = null; }
     $$('[data-tab]').forEach(b => b.classList.toggle('on', b.dataset.tab === tab)); scrollTo(0, 0);
     FN()[tab]();
   }
@@ -425,7 +427,7 @@
   // ---------- الأحداث ----------
   const act = async fn => { if (st.busy) return; st.busy = true; try { await fn(); } finally { st.busy = false; } };
   const stay = async () => { await refresh(); if (st.sheet && st.sheet.kind && !st.sheet.preview) return itemsSheet(st.sheet.kind, st.sheet.id, st.sheet.title, true); };
-  const goMore = sub => { st.more = sub; st.tab = 'more'; $$('[data-tab]').forEach(b => b.classList.toggle('on', b.dataset.tab === 'more')); scrollTo(0, 0); renderMore(); };
+  const goMore = sub => { st.more = sub; st.tab = 'more'; document.body.dataset.staffTab = 'more'; $$('[data-tab]').forEach(b => b.classList.toggle('on', b.dataset.tab === 'more')); scrollTo(0, 0); renderMore(); };
   function bind() {
     document.addEventListener('click', e => {
       if (!st.user) return;

@@ -29,22 +29,19 @@ button{cursor:pointer;border:0;background:none}
 .brand.lg svg{width:84px;height:84px}.brand.lg .wm{font-size:2.8rem}.brand.lg{flex-direction:column;gap:14px}
 
 /* ===== البطاقة الزجاجية: زجاج مضبّب + حد ضوء بيلف (الشكل 7) ===== */
-@property --a{syntax:'<angle>';initial-value:35deg;inherits:false}
+@property --a{syntax:'<angle>';initial-value:0deg;inherits:false}
 .glass{position:relative;border:0;border-radius:var(--r-lg);
   background:radial-gradient(420px circle at var(--mx,120%) var(--my,-20%),var(--spot),transparent 55%),
              radial-gradient(120% 70% at 12% 0%,var(--spec),transparent 55%),
              linear-gradient(135deg,var(--glass-a),var(--glass-b) 55%,var(--glass-c));
   -webkit-backdrop-filter:blur(16px) saturate(1.7);backdrop-filter:blur(16px) saturate(1.7);
   box-shadow:inset 0 1px 0 var(--glass-hi),var(--sh-2)}
-.glass::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1.5px;pointer-events:none;
-  background:conic-gradient(from var(--a),rgba(var(--accrgb),.16) 0 52%,var(--brand-1) 76%,var(--brand-3) 90%,rgba(var(--accrgb),.16) 100%);
+.glass::before,.tile::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1.5px;pointer-events:none;
+  background:conic-gradient(from var(--a),rgba(var(--accrgb),.16) 0 48%,var(--brand-1) 72%,var(--brand-3) 88%,rgba(var(--accrgb),.16) 100%);
   -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;
-  mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0)}
-/* زاوية مختلفة لكل كرت علشان الشكل يبقى طبيعي، والدوران للكروت الحيّة بس (أداء أحسن) */
-.glass:nth-child(3n+2)::before{--a:140deg}.glass:nth-child(3n)::before{--a:250deg}
-.hero::before,.glass.live::before,.ad.running::before,.bigkpi::before,.dlg::before{animation:ring var(--ring-speed) linear infinite}
-@media (hover:hover){.glass:hover::before{animation:ring var(--ring-speed) linear infinite}}
-@keyframes ring{to{--a:360deg}}
+  mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);
+  animation:ring var(--ring-speed) linear infinite}
+@keyframes ring{from{--a:0deg}to{--a:360deg}}
 [data-tilt]{transform:perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .18s ease-out;will-change:transform}
 
 /* ===== الشريط العلوي ===== */
@@ -100,8 +97,8 @@ button{cursor:pointer;border:0;background:none}
 
 .quick,.cats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:18px}
 .cats{grid-template-columns:repeat(3,1fr);margin-top:0}
-.tile{display:flex;flex-direction:column;align-items:center;gap:10px;padding:16px 4px 14px;font-size:.78rem;font-weight:700;text-align:center;border:1px solid transparent;border-radius:var(--r-md);box-shadow:var(--sh-2);transition:transform var(--dur-1),box-shadow var(--dur-2);
-  background:linear-gradient(180deg,var(--s1),var(--s2)) padding-box,linear-gradient(135deg,var(--edge-a),var(--edge-b) 40%,var(--edge-b) 70%,var(--edge-c)) border-box}
+.tile{position:relative;display:flex;flex-direction:column;align-items:center;gap:10px;padding:16px 4px 14px;font-size:.78rem;font-weight:700;text-align:center;border:0;border-radius:var(--r-md);box-shadow:var(--sh-2);transition:transform var(--dur-1),box-shadow var(--dur-2);
+  background:linear-gradient(180deg,var(--s1),var(--s2))}
 .tile:hover{transform:translateY(-2px)}.tile:active{transform:scale(.97)}
 .tile small{color:var(--muted);font-weight:600}
 .ico{width:46px;height:46px;border-radius:var(--r-md);display:grid;place-items:center;font-size:1.3rem;color:var(--on-brand);background:var(--brand-grad);box-shadow:0 1px 0 rgba(255,255,255,.35) inset,0 10px 22px -8px var(--glow)}
@@ -230,7 +227,7 @@ button{cursor:pointer;border:0;background:none}
   background:radial-gradient(120% 70% at 12% 0%,rgba(255,255,255,.14),transparent 55%),linear-gradient(135deg,rgba(255,255,255,.10),rgba(255,255,255,.03) 55%,rgba(255,255,255,.06));
   -webkit-backdrop-filter:blur(18px) saturate(1.6);backdrop-filter:blur(18px) saturate(1.6);box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 40px 80px -20px rgba(0,0,0,.7)}
 .splash-card::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1.5px;pointer-events:none;animation:ring var(--ring-speed) linear infinite;
-  background:conic-gradient(from var(--a),rgba(255,106,31,.16) 0 52%,#FF6A1F 76%,#FFB24A 90%,rgba(255,106,31,.16) 100%);
+  background:conic-gradient(from var(--a),rgba(255,106,31,.16) 0 48%,#FF6A1F 72%,#FFB24A 88%,rgba(255,106,31,.16) 100%);
   -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0)}
 .pad-lg{width:200px;margin-bottom:6px;filter:drop-shadow(0 22px 22px rgba(0,0,0,.65)) drop-shadow(0 0 36px rgba(255,120,40,.4));animation:float 6s ease-in-out infinite}
 .splash .brand{margin:6px 0 4px}.splash .brand .wm{background:linear-gradient(180deg,#fff,#FFD2A8);-webkit-background-clip:text;background-clip:text;color:transparent}
@@ -239,4 +236,4 @@ button{cursor:pointer;border:0;background:none}
 .splash-login{margin-top:18px;font-size:.92rem}.splash-login .link{color:#FFB27A}
 
 body.is-staff #custTop,body.is-staff #app,body.is-staff #bottomNav,body.is-staff #splash{display:none!important}
-@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important}}
