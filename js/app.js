@@ -189,7 +189,7 @@
           <div class="err" id="authErr"></div>
           <button class="btn-primary" type="submit">${su ? 'إنشاء الحساب' : 'دخول'}</button>
         </form>
-        ${S.mode === 'demo' ? '<p class="note">وضع تجريبي: البيانات محلية على جهازك. حسابات تجريبية بكلمة السر 123456: المالك 01000000000، الكاشير 01000000001.</p>' : ''}`;
+        ${S.mode === 'demo' ? '<p class="note">وضع تجريبي: البيانات محلية على جهازك.</p>' : ''}`;
       return;
     }
     const groups = [['pending', 'بانتظار الموافقة'], ['confirmed', 'مؤكدة'], ['rejected', 'مرفوضة'], ['cancelled', 'ملغية'], ['completed', 'مكتملة']];
